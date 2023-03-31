@@ -11,9 +11,10 @@ export const GlobalStyle = createGlobalStyle`
     box-shadow: 0 0 0 2px ${(props) => props.theme['yellow-dark']};
   }
   body {
-    /* background: ${(props) => props.theme['yellow-dark']}; */
-    /* color: ${(props) => props.theme['yellow-dark']}; */
+    background: ${(props) => props.theme.background};
     -webkit-font-smoothing: antialiased;
+
+    font-family: 'Roboto', sans-serif;
   }
 `
 
