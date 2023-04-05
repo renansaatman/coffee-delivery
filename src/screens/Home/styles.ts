@@ -4,18 +4,24 @@ import Background from '../../assets/background.svg'
 import { Coffee, Package, ShoppingCart, Timer } from "@phosphor-icons/react";
 
 export const HomeContainer = styled.div`
+  h2 {
+    font-size: 2rem;
+    color: ${props => props.theme["base-subtitle"]};
 
+    margin: 2rem auto 3.375rem 15rem;
+  }
 
 `
 
 export const BannerContent = styled.div`
   height: 544px;
-  background: url(${Background});
+
+  background: url(${Background}) no-repeat center/cover;
   display: flex;
   align-items: center;
-  gap: 3.5rem;
+  justify-content: space-between;
 
-  padding: 0 10rem;
+  padding: 0 15rem;
 `
 
 export const BannerTitles = styled.div`
@@ -44,8 +50,6 @@ export const BannerItems = styled.div`
   grid-template-columns: 14.43rem 18.375rem;
   grid-template-rows: 1fr 1fr;
   gap: 1.25rem 2.5rem;
-
-  width: ;
 `
 
 export const BannerItem = styled.div`
@@ -94,3 +98,5 @@ export const CoffeeIcon = styled(Coffee)`
   height: 2rem;
   padding: .5rem;
 `
+
+export const MenuContent = styled.div``

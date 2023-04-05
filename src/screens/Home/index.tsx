@@ -10,9 +10,11 @@ import {
   TimerIcon,
   PackageIcon,
   CoffeeIcon,
+  MenuContent,
 } from "./styles";
 
 import CoffeeDeliveryImg from '../../assets/coffee-delivery-img.svg'
+import { CoffeeCard } from "../../components/CoffeeCard";
 
 export function Home() {
   return (
@@ -46,6 +48,12 @@ export function Home() {
 
         <img src={CoffeeDeliveryImg} alt="" />
       </BannerContent>
+
+      <h2>Nosso cafés</h2>
+
+      <MenuContent>
+        <CoffeeCard />
+      </MenuContent>
     </HomeContainer>
   )
 }

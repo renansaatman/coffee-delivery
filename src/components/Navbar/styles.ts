@@ -11,8 +11,9 @@ export const NavContainer = styled.div`
 
   align-items: center;
   justify-content: space-between;
-
+  align-self: center;
   width: 100%;
+  max-width: 90rem;
 `
 
 export const Links = styled.div`
