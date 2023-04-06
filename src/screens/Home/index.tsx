@@ -11,7 +11,10 @@ import {
   PackageIcon,
   CoffeeIcon,
   MenuContent,
+  Coffees,
 } from "./styles";
+
+import { coffees } from "../../coffees";
 
 import CoffeeDeliveryImg from '../../assets/coffee-delivery-img.svg'
 import { CoffeeCard } from "../../components/CoffeeCard";
@@ -49,11 +52,27 @@ export function Home() {
         <img src={CoffeeDeliveryImg} alt="" />
       </BannerContent>
 
-      <h2>Nosso cafés</h2>
-
       <MenuContent>
-        <CoffeeCard />
+        <h2>Nosso cafés</h2>
+
+        <Coffees>
+          {
+            coffees.map((coffee, coffeeIndex) => {
+              return (
+                <CoffeeCard 
+                  key={coffeeIndex}
+                  title={coffee.title}
+                  subtitle={coffee.subtitle}
+                  image={coffee.image}
+                  price={coffee.price}
+                  tags={coffee.tags}
+                />
+              )
+            })
+          }
+        </Coffees>
       </MenuContent>
+
     </HomeContainer>
   )
 }

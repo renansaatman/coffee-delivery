@@ -13,25 +13,36 @@ import { ActionsBar, CardContainer,
         Value
 } from "./styles";
 
-import Expresso from '../../assets/expresso.svg'
 import { Minus, Plus, ShoppingCartSimple } from "@phosphor-icons/react";
 
-export function CoffeeCard() {
+interface CardProps {
+  image: string
+  title: string
+  subtitle: string
+  tags: string[]
+  price: number
+}
+
+export function CoffeeCard({image, title, subtitle, tags, price}: CardProps) {
   return (
     <CardContainer>
-      <Image src={Expresso} alt="" />
+      <Image src={image} alt="" />
 
       <Tags>
-        <Tag>Tradicional</Tag>
+        {tags.map(tag => {
+          return (
+            <Tag>{tag}</Tag>
+          )
+        })}
       </Tags>
       
       <TextContent>
-        <Title>Expresso Tradicional</Title>
-        <Subtitle>O tradicional café feito com água quente e grãos moídos</Subtitle>
+        <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
       </TextContent>
 
       <PriceContent>
-        <Price>R$ <strong>9,90</strong></Price>
+        <Price>R$ <strong>{price.toString().replace('.', ',')}</strong></Price>
         <ActionsBar>
           <Counter>
             <CounterBtn>
