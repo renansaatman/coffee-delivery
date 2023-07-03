@@ -10,7 +10,7 @@ export function Navbar() {
 
       <Links>
         <NavLink to={'/'} variant='purple'><MapPin size={22} weight="fill" /> <span>Porto Alegre, RS</span></NavLink>
-        <NavLink to={'/'} variant='yellow'><ShoppingCart size={22} weight="fill" /></NavLink>
+        <NavLink to={'/cart'} variant='yellow'><ShoppingCart size={22} weight="fill" /></NavLink>
       </Links>
     </NavContainer>
   )
