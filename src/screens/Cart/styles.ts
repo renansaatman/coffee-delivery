@@ -78,12 +78,29 @@ export const FormInput = styled.input`
 
   border: 1px solid ${props => props.theme["base-button"]};
   border-radius: 4px;
+
+  width: 100%;
   
   &::placeholder {
     color: ${props => props.theme["base-label"]};
   }
-
 `
+
+export const ComplementoContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`
+
+export const OptionalComplementoText = styled.span`
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: ${props => props.theme["base-label"]};
+  font-size: .75rem;
+  font-style: italic;
+  line-height: 130%;
+`;
 
 export const RadioButtons = styled.div`
   display: flex;

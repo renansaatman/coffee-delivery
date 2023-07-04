@@ -1,9 +1,10 @@
 import { MapPinLine, CurrencyDollar, CreditCard, Bank, Money } from "@phosphor-icons/react";
-import { AddressForm, AddressFormArea, CartContainer, CartContent, CartInfoArea, CheckoutArea, ClientInfoContent, FormInput, Price, PaymentArea, Prices, Radio, RadioButtons, RadioInput, RadioLabel, RadioText, ShopBtn, TextArea, Title, Value, Text, TotalParagraph } from "./styles";
+import { AddressForm, AddressFormArea, CartContainer, CartContent, CartInfoArea, CheckoutArea, ClientInfoContent, FormInput, Price, PaymentArea, Prices, Radio, RadioButtons, RadioInput, RadioLabel, RadioText, ShopBtn, TextArea, Title, Value, Text, TotalParagraph, ComplementoContainer, OptionalComplementoText } from "./styles";
 import { useState } from "react";
 import { CoffeeCartCard } from "../../components/CoffeeCartCard";
 
 export function Cart() {
+  const [complemento, setComplemento] = useState('')
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleRadioChange = (value: string) => {
@@ -40,11 +41,15 @@ export function Cart() {
               placeholder="Número"
               style={{gridArea: '3 / 1 / 4 / 2'}}
             />
-            <FormInput 
-              type="text" 
-              placeholder="Complemento"
-              style={{gridArea: '3 / 2 / 4 / 4'}}
-            />
+            <ComplementoContainer style={{gridArea: '3 / 2 / 4 / 4'}}>
+              <FormInput 
+                type="text" 
+                placeholder="Complemento"
+                onChange={e => setComplemento(e.target.value)}
+                value={complemento}
+              />
+              {!complemento && <OptionalComplementoText>Opcional</OptionalComplementoText>}
+            </ComplementoContainer>
             <FormInput 
               type="text" 
               placeholder="Bairro"
