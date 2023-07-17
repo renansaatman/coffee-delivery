@@ -23,6 +23,8 @@ export const Links = styled.div`
 `
 
 export const NavLink = styled(Link)<LinkProps>`
+  position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,4 +41,23 @@ export const NavLink = styled(Link)<LinkProps>`
   font-size: .875rem;
 
   text-decoration: none;
+`
+
+export const CartItems = styled.span`
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+
+  color: ${props => props.theme.white};
+  font-size: .75rem;
+  font-weight: 700;
+  background-color: ${props => props.theme["yellow-dark"]};
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: -8px;
+  right: -8.345px;
 `
