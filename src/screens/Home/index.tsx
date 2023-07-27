@@ -14,12 +14,16 @@ import {
   Coffees,
 } from "./styles";
 
-import { coffees } from "../../coffees";
-
 import CoffeeDeliveryImg from '../../assets/coffee-delivery-img.svg'
+
 import { CoffeeCard } from "../../components/CoffeeCard";
+import { useContext } from "react";
+import { CoffeeContext } from "../../contexts/CoffeeContext";
 
 export function Home() {
+  const { listOfCoffees } = useContext(CoffeeContext)
+
+
   return (
     <HomeContainer>
       <BannerContent>
@@ -57,10 +61,11 @@ export function Home() {
 
         <Coffees>
           {
-            coffees.map((coffee, coffeeIndex) => {
+            listOfCoffees.map((coffee, coffeeIndex) => {
               return (
                 <CoffeeCard 
-                  key={coffeeIndex}
+                  key={coffee.coffeeId}
+                  coffeeId={coffee.coffeeId.toString()}
                   title={coffee.title}
                   subtitle={coffee.subtitle}
                   image={coffee.image}

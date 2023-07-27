@@ -1,11 +1,14 @@
 import { MapPinLine, CurrencyDollar, CreditCard, Bank, Money } from "@phosphor-icons/react";
 import { AddressForm, AddressFormArea, CartContainer, CartContent, CartInfoArea, CheckoutArea, ClientInfoContent, FormInput, Price, PaymentArea, Prices, Radio, RadioButtons, RadioInput, RadioLabel, RadioText, ShopBtn, TextArea, Title, Value, Text, TotalParagraph, ComplementoContainer, OptionalComplementoText } from "./styles";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CoffeeCartCard } from "../../components/CoffeeCartCard";
+import { CoffeeContext } from "../../contexts/CoffeeContext";
 
 export function Cart() {
   const [complemento, setComplemento] = useState('')
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState('')
+
+  const { cart, ship, partialPrice, totalPrice } = useContext(CoffeeContext)
 
   const handleRadioChange = (value: string) => {
     setSelectedValue(value)
@@ -113,23 +116,42 @@ export function Cart() {
         <Title>Cafés selecionados</Title>
 
         <CartInfoArea>
-          <CoffeeCartCard />
-          <CoffeeCartCard />
+          {cart && cart.map(cartItem => {
+            return (
+              <CoffeeCartCard 
+                key={cartItem.coffeeId}
+                coffeeId={cartItem.coffeeId}
+                image={cartItem.image}
+                price={cartItem.price}
+                title={cartItem.title}
+                numberOfItems={cartItem.numberOfItems}
+              />
+            )
+          })}
 
           <CheckoutArea>
             <Prices>
               <Price>
                 <Text>Total de itens</Text>
-                <Value>R$ 29,70</Value>
+                <Value>{partialPrice.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                })}</Value>
               </Price>
               <Price>
                 <Text>Entrega</Text>
-                <Value>R$ 3,50</Value>
+                <Value>{ship.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                })}</Value>
               </Price>
 
               <Price>
                 <TotalParagraph>Total</TotalParagraph>
-                <TotalParagraph>R$ 33,20</TotalParagraph>
+                <TotalParagraph>{totalPrice.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                })}</TotalParagraph>
               </Price>
             </Prices>
             <ShopBtn>Confirmar Pedido</ShopBtn>
