@@ -80,6 +80,16 @@ export const FormInput = styled.input`
   border-radius: 4px;
 
   width: 100%;
+
+  &[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+    
+  }
+  &[type=number] { 
+   -moz-appearance: textfield;
+   appearance: textfield;
+
+}
   
   &::placeholder {
     color: ${props => props.theme["base-label"]};
@@ -232,9 +242,15 @@ export const ShopBtn = styled.button`
   line-height: 160%;
   color: ${props => props.theme.white};
 
+  cursor: pointer;
+
   transition: .2s background;
 
   &:hover {
     background: ${props => props.theme["yellow-dark"]};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 `

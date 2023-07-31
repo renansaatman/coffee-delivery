@@ -16,11 +16,24 @@ interface CoffeeProps {
   numberOfItems?: number
 }
 
+interface CartFormData {
+  cep: string
+  rua: string
+  numero: string
+  bairro: string
+  cidade: string
+  complemento?: string
+  uf: string
+  formaDePagamento: 'credito' | 'debito' | 'dinheiro'
+}
+
 interface CoffeeContextType {
   plusOneCounter: (cardId: string, isInTheCart?: boolean) => void
   minusOneCounter: (cardId: string, isInTheCart?: boolean) => void
   addToCart: (coffeeId: string) => void
   removeFromCart: (coffeeId: string) => void
+  saveFormData: (data: CartFormData) => void
+  clearCart: () => void
   coffeeQuantities: CoffeeQuantitiesType
   sumOfItems: number
   cart: CoffeeProps[]
@@ -28,6 +41,7 @@ interface CoffeeContextType {
   ship: number
   partialPrice: number
   totalPrice: number
+  cartFormData: CartFormData
 }
 
 export const CoffeeContext = createContext({} as CoffeeContextType)
@@ -42,6 +56,7 @@ export function CoffeeContextProvider({ children }: CoffeeContextProviderProps) 
   const [coffeeQuantities, setCoffeeQuantities] = useState({} as CoffeeQuantitiesType)
   const [partialPrice, setPartialPrice] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
+  const [cartFormData, setCartFormData] = useState({} as CartFormData) 
 
   const [cart, setCart] = useState<CoffeeProps[]>([])
 
@@ -109,6 +124,14 @@ export function CoffeeContextProvider({ children }: CoffeeContextProviderProps) 
     setCart(cart.filter(coffee => coffee.coffeeId !== coffeeId))
   }
 
+  function saveFormData(data: CartFormData) {
+    setCartFormData(data)
+  }
+
+  function clearCart() {
+    setCart([])
+  }
+
   useEffect(() => {
     const sum = cart.reduce((acc, coffee) => {
       return acc + (coffee.numberOfItems || 1)
@@ -136,7 +159,10 @@ export function CoffeeContextProvider({ children }: CoffeeContextProviderProps) 
         listOfCoffees, 
         removeFromCart, 
         totalPrice, 
-        partialPrice
+        partialPrice,
+        saveFormData,
+        cartFormData,
+        clearCart
       }}
     >
       {children}

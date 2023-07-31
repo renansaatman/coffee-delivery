@@ -13,10 +13,10 @@ export function Navbar() {
       <img src={LogoImg} alt="" />
 
       <Links>
-        <NavLink to={'/'} variant='purple'><MapPin size={22} weight="fill" /> <span>Porto Alegre, RS</span></NavLink>
+        <NavLink to={'/'} variant='purple'><MapPin size={22} weight="fill" /> <span>Parnamirim, RN</span></NavLink>
         <NavLink to={'/cart'} variant='yellow'>
           <ShoppingCart size={22} weight="fill" />
-          <CartItems>{sumOfItems}</CartItems>
+          {sumOfItems !== 0 && <CartItems>{sumOfItems}</CartItems>}
         </NavLink>
       </Links>
     </NavContainer>

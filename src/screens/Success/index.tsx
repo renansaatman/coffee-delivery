@@ -1,8 +1,16 @@
 import { CashIcon, Content, Info, InfoBox, MapIcon, Subtitle, SuccessContainer, Texts, TimerIcon, Title } from "./styles";
 
 import SuccessImg from '../../assets/success-img.svg'
+import { useContext, useEffect } from "react";
+import { CoffeeContext } from "../../contexts/CoffeeContext";
 
 export function Success() {
+  const { cartFormData, clearCart } = useContext(CoffeeContext)
+
+  useEffect(() => {
+    clearCart()
+  })
+
   return (
     <SuccessContainer>
       <Texts>
@@ -15,8 +23,8 @@ export function Success() {
           <Info>
             <MapIcon weight="fill" size={16}/>
             <div>
-              <p>Entrega em <strong>Rua João Daniel Martinelli, 102</strong></p>
-              <p>Farrapos - Porto Alegre, RS</p>
+              <p>Entrega em <strong>{cartFormData.rua}, {cartFormData.numero}</strong></p>
+              <p>{cartFormData.bairro} - {cartFormData.cidade}, {cartFormData.uf}</p>
             </div>
           </Info>
           <Info>
@@ -30,7 +38,13 @@ export function Success() {
             <CashIcon weight="fill" size={16}/>
             <div>
               <p>Pagamento na entrega</p>
-              <p><strong>Cartão de Crédito</strong></p>
+              <p>
+                <strong>
+                  {
+                    cartFormData.formaDePagamento === 'credito' ? 'Cartão de Crédito' : cartFormData.formaDePagamento === 'debito' ? 'Cartão de Débito' : 'Dinheiro'
+                  }
+                </strong>
+              </p>
             </div>
           </Info>
         </InfoBox>

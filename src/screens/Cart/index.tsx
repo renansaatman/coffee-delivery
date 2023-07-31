@@ -3,16 +3,52 @@ import { AddressForm, AddressFormArea, CartContainer, CartContent, CartInfoArea,
 import { useContext, useState } from "react";
 import { CoffeeCartCard } from "../../components/CoffeeCartCard";
 import { CoffeeContext } from "../../contexts/CoffeeContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+
+import * as zod from 'zod'
+import { useNavigate } from "react-router-dom";
+
+const cartFormValidationSchema = zod.object({
+  cep: zod.string().min(8),
+  rua: zod.string().min(1).max(50),
+  numero: zod.string().min(1),
+  bairro: zod.string().min(1).max(50),
+  cidade: zod.string().min(1).max(50),
+  complemento: zod.string().optional(),
+  uf: zod.string().min(1).max(2),
+  formaDePagamento: zod.enum(['credito', 'debito', 'dinheiro']).refine(value => value !== undefined)
+})
+
+type CartFormData = zod.infer<typeof cartFormValidationSchema>
 
 export function Cart() {
-  const [complemento, setComplemento] = useState('')
-  const [selectedValue, setSelectedValue] = useState('')
+  const navigate = useNavigate()
+  const { cart, ship, partialPrice, totalPrice, saveFormData } = useContext(CoffeeContext)
 
-  const { cart, ship, partialPrice, totalPrice } = useContext(CoffeeContext)
+  const { register, handleSubmit, watch, reset } = useForm<CartFormData>({
+    resolver: zodResolver(cartFormValidationSchema),
+    defaultValues: {
+      cep: '',
+      rua: '',
+      numero: '',
+      bairro: '',
+      cidade: '',
+      complemento: '',
+      uf: '',
+    }
+  })
 
-  const handleRadioChange = (value: string) => {
-    setSelectedValue(value)
+  function handleFinishOrder(data: CartFormData) {
+    saveFormData(data)
+    reset()
+    navigate('/success')
   }
+
+  const complemento = watch('complemento')
+  const isComplementoEmpty = !complemento
+
+  const formaDePagamento = watch('formaDePagamento')
 
   return (
     <CartContainer>
@@ -30,43 +66,55 @@ export function Cart() {
 
           <AddressForm>
             <FormInput 
+              id="cep"
               type="number" 
               placeholder="CEP"
-              style={{gridArea: '1 / 1 / 2 / 2'}}  
+              style={{gridArea: '1 / 1 / 2 / 2'}} 
+              {...register('cep')}
             />
             <FormInput 
+              id="rua"
               type="text" 
               placeholder="Rua"
               style={{gridArea: '2 / 1 / 3 / 4'}}
+              {...register('rua')}
             />
             <FormInput 
+              id="numero"
               type="number" 
               placeholder="Número"
               style={{gridArea: '3 / 1 / 4 / 2'}}
+              {...register('numero')}
             />
             <ComplementoContainer style={{gridArea: '3 / 2 / 4 / 4'}}>
               <FormInput 
+                id="complemento"
                 type="text" 
                 placeholder="Complemento"
-                onChange={e => setComplemento(e.target.value)}
-                value={complemento}
+                {...register('complemento')}
               />
-              {!complemento && <OptionalComplementoText>Opcional</OptionalComplementoText>}
+              {isComplementoEmpty && <OptionalComplementoText>Opcional</OptionalComplementoText>}
             </ComplementoContainer>
             <FormInput 
+              id="bairro"
               type="text" 
               placeholder="Bairro"
               style={{gridArea: '4 / 1 / 5 / 2'}}
+              {...register('bairro')}
             />
             <FormInput 
+              id="cidade"
               type="text" 
               placeholder="Cidade"
               style={{gridArea: '4 / 2 / 5 / 3'}}
+              {...register('cidade')}
             />
             <FormInput 
+              id="uf"
               type="text" 
               placeholder="UF"
               style={{gridArea: '4 / 3 / 5 / 4'}}
+              {...register('uf')}
             />
           </AddressForm>
         </AddressFormArea>
@@ -83,7 +131,12 @@ export function Cart() {
           <RadioButtons>
             <Radio>
               <RadioLabel>
-                <RadioInput type="radio" checked={selectedValue === 'credito'} onChange={() => handleRadioChange('credito')}/>
+                <RadioInput 
+                  type="radio" 
+                  value="credito"
+                  checked={formaDePagamento === 'credito'} 
+                  {...register('formaDePagamento')}
+                />
                 <RadioText>
                   <CreditCard size={22} color="#8047F8" />
                   CARTÃO DE CRÉDITO
@@ -92,7 +145,12 @@ export function Cart() {
             </Radio>
             <Radio>
               <RadioLabel>
-                <RadioInput type="radio" checked={selectedValue === 'debito'} onChange={() => handleRadioChange('debito')}/>
+                <RadioInput 
+                  type="radio" 
+                  value="debito"
+                  checked={formaDePagamento === 'debito'} 
+                  {...register('formaDePagamento')}
+                />
                 <RadioText>
                   <Bank size={22} color="#8047F8" />
                   CARTÃO DE DÉBITO
@@ -101,7 +159,12 @@ export function Cart() {
             </Radio>
             <Radio>
               <RadioLabel>
-                <RadioInput type="radio" checked={selectedValue === 'dinheiro'} onChange={() => handleRadioChange('dinheiro')}/>
+                <RadioInput 
+                  type="radio" 
+                  value="dinheiro"
+                  checked={formaDePagamento === 'dinheiro'} 
+                  {...register('formaDePagamento')}
+                />
                 <RadioText>
                   <Money size={22} color="#8047F8" />
                   DINHEIRO
@@ -154,7 +217,7 @@ export function Cart() {
                 })}</TotalParagraph>
               </Price>
             </Prices>
-            <ShopBtn>Confirmar Pedido</ShopBtn>
+            <ShopBtn onClick={handleSubmit(handleFinishOrder)} disabled={cart.length === 0} >Confirmar Pedido</ShopBtn>
           </CheckoutArea>
         </CartInfoArea>
       </CartContent>
