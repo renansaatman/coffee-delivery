@@ -3,12 +3,15 @@ import { CashIcon, Content, Info, InfoBox, MapIcon, Subtitle, SuccessContainer, 
 import SuccessImg from '../../assets/success-img.svg'
 import { useContext, useEffect } from "react";
 import { CoffeeContext } from "../../contexts/CoffeeContext";
+import { useNavigate } from "react-router-dom";
 
 export function Success() {
   const { cartFormData, clearCart } = useContext(CoffeeContext)
-
+  const navigate = useNavigate()
   useEffect(() => {
     clearCart()
+
+    !!cartFormData && navigate('/')
   })
 
   return (

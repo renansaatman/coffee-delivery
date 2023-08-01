@@ -58,7 +58,7 @@ export function CoffeeContextProvider({ children }: CoffeeContextProviderProps) 
   const [totalPrice, setTotalPrice] = useState(0)
   const [cartFormData, setCartFormData] = useState({} as CartFormData) 
 
-  const [cart, setCart] = useState<CoffeeProps[]>([])
+  const [cart, setCart] = useState<CoffeeProps[]>(getCartFromLocalStorage)
 
   const ship = 3.50
 
@@ -132,6 +132,15 @@ export function CoffeeContextProvider({ children }: CoffeeContextProviderProps) 
     setCart([])
   }
 
+  function saveCartToLocalStorage(cart: CoffeeProps[]) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  function getCartFromLocalStorage(): CoffeeProps[] {
+    const cartString = localStorage.getItem('cart');
+    return cartString ? JSON.parse(cartString) : [];
+  }
+
   useEffect(() => {
     const sum = cart.reduce((acc, coffee) => {
       return acc + (coffee.numberOfItems || 1)
@@ -144,6 +153,8 @@ export function CoffeeContextProvider({ children }: CoffeeContextProviderProps) 
     setPartialPrice(cartPrice)
     setTotalPrice(cartPrice + ship)
     setSumOfItems(sum)
+
+    saveCartToLocalStorage(cart)
   }, [cart])
 
   return (

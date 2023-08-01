@@ -1,6 +1,6 @@
 import { MapPinLine, CurrencyDollar, CreditCard, Bank, Money } from "@phosphor-icons/react";
 import { AddressForm, AddressFormArea, CartContainer, CartContent, CartInfoArea, CheckoutArea, ClientInfoContent, FormInput, Price, PaymentArea, Prices, Radio, RadioButtons, RadioInput, RadioLabel, RadioText, ShopBtn, TextArea, Title, Value, Text, TotalParagraph, ComplementoContainer, OptionalComplementoText } from "./styles";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CoffeeCartCard } from "../../components/CoffeeCartCard";
 import { CoffeeContext } from "../../contexts/CoffeeContext";
 import { useForm } from "react-hook-form";
