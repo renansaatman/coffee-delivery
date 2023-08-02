@@ -11,7 +11,7 @@ export function Success() {
   useEffect(() => {
     clearCart()
 
-    !!cartFormData && navigate('/')
+    Object.keys(cartFormData).length === 0 && navigate('/')
   })
 
   return (
